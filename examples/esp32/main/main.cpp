@@ -173,6 +173,14 @@ void initEthernet()
   ESP_ERROR_CHECK(esp_netif_attach(ethNetif, esp_eth_new_netif_glue(ethHandle)));
   /* start Ethernet driver state machine */
   ESP_ERROR_CHECK(esp_eth_start(ethHandle));
+
+  /*
+  ESP_ERROR_CHECK(esp_netif_dhcpc_stop(ethNetif));
+  esp_netif_ip_info_t ipInfo{};
+  esp_netif_set_ip4_addr(&ipInfo.ip, 10, 0, 0, 2);
+  esp_netif_set_ip4_addr(&ipInfo.netmask, 255, 0, 0, 0);
+  ESP_ERROR_CHECK(esp_netif_set_ip_info(ethNetif, &ipInfo));
+  */
 }
 
 // force c linkage for app_main()
@@ -297,6 +305,7 @@ extern "C" void app_main()
   initWifi();
 #endif
 
+  /*
   std::thread updateThread([=]() {
     BME280 bme280(I2C_NUM_0, 0x76u, static_cast<gpio_num_t>(13), static_cast<gpio_num_t>(16));
     while (true)
@@ -311,5 +320,6 @@ extern "C" void app_main()
     }
   });
   updateThread.join();
+  */
   vTaskDelete(nullptr);
 }
